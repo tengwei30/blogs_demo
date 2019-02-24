@@ -45,8 +45,7 @@ module.exports = {
   build: {
     assetsRoot: path.resolve(__dirname, `../${Pages.OUT_PUT_FOLDER_NAME}`),
     assetsSubDirectory: 'growth-statics',
-    assetsPublicPath: 'https://m-static.yangcong345.com',
-    // assetsPublicPath: '/',
+    assetsPublicPath: '/',
     productionSourceMap: true,
     productionGzipExtensions: ['js', 'css'],
     devtool: '#source-map',

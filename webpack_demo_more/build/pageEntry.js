@@ -5,12 +5,20 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const PUBLIC_PATH = require('./pages')
 const isProd = (process.env.NODE_ENV === 'production')
 const Config = require('./config.js')
+let globMatch = '**'
 
+/**
+ * select 多页面选择变量
+ */
+if (!isProd && global.SELECT_PAGES) {
+  globMatch = global.SELECT_PAGES
+}
 /**
  * 多入口配置
  */
 exports.entries = () => {
-  const entryFiles = glob.sync(`${PUBLIC_PATH.NORMAL_PAGE_PATH}/**/app.js`)
+  console.log(globMatch)
+  const entryFiles = glob.sync(`${PUBLIC_PATH.NORMAL_PAGE_PATH}/${globMatch}/app.js`)
   const entry = {}
   entryFiles.forEach(filePath => {
     const fileNameReg = new RegExp(`([^\/]+)\/${PUBLIC_PATH.STATIC_JS_NAME}\.js$`)
@@ -24,7 +32,7 @@ exports.entries = () => {
  * 多页面页面配置
  */
 exports.htmlPlugin = () => {
-  const entryHrml = glob.sync(`${PUBLIC_PATH.NORMAL_PAGE_PATH}/**/app.js`)
+  const entryHrml = glob.sync(`${PUBLIC_PATH.NORMAL_PAGE_PATH}/${globMatch}/app.js`)
   const templateHtml = glob.sync(`${PUBLIC_PATH.TEMPLATE_PUBLIC}/index.ejs`)
   const arrHtml = []
   entryHrml.forEach(htmlPath => {

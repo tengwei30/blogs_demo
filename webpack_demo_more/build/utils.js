@@ -3,6 +3,9 @@ const os = require('os')
 const packageConfig = require('../package.json')
 const notifier = require('node-notifier')
 
+/**
+ * 获取当前用户本地IP地址
+ */
 exports.getIPAdress = function() {
   const interfaces = os.networkInterfaces()
   for (const devName in interfaces) {

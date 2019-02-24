@@ -7,6 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config build/webpack.dev.config.js",
+    "start": "node build/selectPage.js",
     "cli-create": "sh ./cli/createHtml.sh",
     "build": "cross-env NODE_ENV=production node build/build.js"
   },
@@ -62,6 +63,9 @@
     "dayjs": "^1.8.6",
     "ejs": "^2.6.1",
     "ejs-loader": "^0.3.1",
+    "fuzzy": "^0.1.3",
+    "inquirer": "^6.2.2",
+    "inquirer-checkbox-plus-prompt": "^1.0.1",
     "postcss-aspect-ratio-mini": "^1.0.1",
     "postcss-cssnext": "^3.1.0",
     "postcss-flexbugs-fixes": "^4.1.0",
