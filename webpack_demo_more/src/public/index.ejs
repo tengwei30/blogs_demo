@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>webpack_demo_more</title>
+  <script src="//g.alicdn.com/fdilab/lib3rd/viewport-units-buggyfill/0.6.2/??viewport-units-buggyfill.hacks.min.js,viewport-units-buggyfill.min.js"></script>
+  <style>
+    * {margin: 0; padding: 0}
+    body,html {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <% if (!htmlWebpackPlugin.options.isProd) { %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/1.5.4/eruda.min.js"></script>
+  <!-- <script src="<%=htmlWebpackPlugin.options.staticPath %>/eruda.js"></script> -->
+  <script>
+    eruda.init()
+  </script>
+  <% } %>
+</head>
+<body>
+    <div id="index"></div>
+    <script>
+      window.onload = function() {
+        window.viewportUnitsBuggyfill.init({
+          hacks: window.viewportUnitsBuggyfillHacks
+        })
+        // 验证输出
+        const winDPI = window.devicePixelRatio;
+        const uAgent = window.navigator.userAgent;
+        const screenHeight = window.screen.height;
+        const screenWidth = window.screen.width;
+        const winWidth = window.innerWidth;
+        const winHeight = window.innerHeight;
+      };
+    </script>
+  </body>
+</html>
