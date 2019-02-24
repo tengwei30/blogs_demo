@@ -1,7 +1,7 @@
-# ycmach_growth
+# webpack_demo_more
 
 ### 项目用途
-  用户增长线营销活动、H5裂变等
+前端多页面应用
 
 ```bash
 # 安装依赖
@@ -11,8 +11,10 @@ npm install
 npm run cli-create
 
 # 开发环境
-npm run dev
+npm start
 
 # 生产环境
 npm run build
+
+
 ```
