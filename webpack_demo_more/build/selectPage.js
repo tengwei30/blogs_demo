@@ -52,7 +52,7 @@ inquirer.prompt({
   console.log(chalk.green('您选择了：'))
   console.log(pages)
   global.SELECT_PAGES = globMatch
-  shell.exec('npm run dev')
+  shell.exec('npm run dev') // 小bug 会优化
 }).catch(err => {
   console.error(err)
 })
