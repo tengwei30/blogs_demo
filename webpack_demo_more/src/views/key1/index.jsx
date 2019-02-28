@@ -13,7 +13,7 @@ class Index extends React.Component {
   render () {
     return(
       <div className="index">
-        <header className="header">我是头部自适应</header>
+        <header className="header">头部自适应</header>
         <content className="content">我是内容部分</content>
         <button onClick={() => this.close()}>点击关闭</button>
       </div>
