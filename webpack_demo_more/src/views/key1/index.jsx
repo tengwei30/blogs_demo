@@ -3,17 +3,17 @@ import './index.less'
 import { getGoods } from './request' 
 class Index extends React.Component {
   componentDidMount () {
-    getGoods().then(res => {
-      console.log('data', res.data)
-    }).catch(err => {
-      console.error('error ---> ', err )
-    })
+    // getGoods().then(res => {
+    //   console.log('data', res.data)
+    // }).catch(err => {
+    //   console.error('error ---> ', err )
+    // })
   }
 
   render () {
     return(
       <div className="index">
-        <header className="header">头部自适应</header>
+        <header className="header">to</header>
         <content className="content">我是内容部分</content>
         <button onClick={() => this.close()}>点击关闭</button>
       </div>
