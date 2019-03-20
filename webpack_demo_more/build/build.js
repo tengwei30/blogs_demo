@@ -31,7 +31,7 @@ function webpackPackage(err) {
     )
 
     if (stats.hasErrors()) {
-      console.log(chalk.red('(ﾟДﾟ≡ﾟдﾟ)!? Build failed with errors.\n'))
+      console.log(chalk.red(' Build failed with errors.\n'))
       process.exit(1)
     }
 

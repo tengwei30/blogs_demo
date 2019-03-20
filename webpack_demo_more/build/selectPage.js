@@ -28,7 +28,7 @@ inquirer.prompt({
   type: 'checkbox-plus',
   name: 'pages',
   message: '选择开发页面',
-  pageSize: 10,
+  pageSize: 15,
   highlight: true,
   searchable: true,
   default: [],
