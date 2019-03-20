@@ -17,7 +17,6 @@ if (!isProd && global.SELECT_PAGES) {
  * 多入口配置
  */
 exports.entries = () => {
-  console.log(globMatch)
   const entryFiles = glob.sync(`${PUBLIC_PATH.NORMAL_PAGE_PATH}/${globMatch}/app.js`)
   const entry = {}
   entryFiles.forEach(filePath => {

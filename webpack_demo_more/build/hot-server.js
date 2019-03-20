@@ -1,24 +1,23 @@
 
 const WebpackDevServer = require("webpack-dev-server")
 const webpack = require('webpack')
-const DevConfig = require('./webpack.dev1.config')
+const DevConfig = require('./webpack.dev.config')
 const baseConfig = require('./config.js')
 
 DevConfig.plugins = (DevConfig.plugins || []).concat([
   new webpack.HotModuleReplacementPlugin(),
 ])
-console.log(DevConfig.plugins)
-return
-const compiler = webpack(DevConfig)
-const server = new WebpackDevServer(compiler, {
+const options = {
   contentBase:  false,
   publicPath: baseConfig.dev.assetsPublicPath,
-  historyApiFallback: true,
-  compress: true,
-  inline: true,
   hot: true,
+  host: baseConfig.dev.host,
   open: true,
-  quiet: true
-})
-server.listen(baseConfig.dev.port, baseConfig.dev.host, () => {
-})
+  quiet: true,
+  compress: true,
+  inline: true
+}
+WebpackDevServer.addDevServerEntrypoints(DevConfig, options)
+const compiler = webpack(DevConfig)
+const server = new WebpackDevServer(compiler, options)
+server.listen(baseConfig.dev.port, baseConfig.dev.host, () => {})

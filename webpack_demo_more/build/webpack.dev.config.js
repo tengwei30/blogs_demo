@@ -13,22 +13,8 @@ module.exports = merge(baseWebpackConfig, {
   watchOptions: {
     ignored: /node_modules/
   },
-  devServer: {
-    contentBase:  false,
-    publicPath: baseConfig.dev.assetsPublicPath,
-    historyApiFallback: true,
-    compress: true,
-    inline: true,
-    hot: true,
-    // hotOnly:true,
-    open: true,
-    quiet: true,
-    host: baseConfig.dev.host,
-    port: baseConfig.dev.port
-  },
   plugins: [
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new FriendlyErrorsPlugin({
       clearConsole: true,
       compilationSuccessInfo: {
