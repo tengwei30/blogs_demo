@@ -1,6 +1,7 @@
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.config.js')
 const webpack = require('webpack')
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 module.exports = merge(baseWebpackConfig, {
   mode: "development",
@@ -31,5 +32,11 @@ module.exports = merge(baseWebpackConfig, {
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new FriendlyErrorsPlugin({
+      clearConsole: true,
+      compilationSuccessInfo: {
+        messages: [`项目地址: http://127.0.0.1:8888`]
+      }
+    }),
   ]
 });
