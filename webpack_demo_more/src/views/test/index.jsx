@@ -8,7 +8,7 @@ class Index extends Component {
   render () {
     return(
       <div className="home">
-        我是测试测试
+
       </div>
     )
   }
