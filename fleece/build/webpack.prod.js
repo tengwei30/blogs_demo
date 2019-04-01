@@ -6,12 +6,44 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const ModuleConcatenationPlugin = require('webpack/lib/optimize/ModuleConcatenationPlugin');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-module.exports = merge(baseWebpackConfig, {
+const pluginsProd = [
+  new CleanWebpackPlugin({
+    root: path.resolve(__dirname, '../dist'),
+  }),
+  // 根据模块的相对路径生成一个四位数的hash作为模块id
+  new webpack.HashedModuleIdsPlugin(),
+  // 开启 Scope Hoisting(作用域提升，分析出模块之间的依赖关系，尽可能的把打散的模块合并到一个函数中去 让webpack 打包出来的代码体积更小，)
+  new ModuleConcatenationPlugin(),
+  // 压缩抽离样式
+  new MiniCssExtractPlugin({
+    filename: 'css/[name].[chunkhash].css',
+    chunkFilename: 'css/[name].[chunkhash].css'
+  }),
+  // 添加输出分析
+  // new BundleAnalyzerPlugin(
+  //   {
+  //     analyzerMode: 'server',
+  //     analyzerHost: '127.0.0.1',
+  //     analyzerPort: 8889,
+  //     reportFilename: 'report.html',
+  //     defaultSizes: 'parsed',
+  //     openAnalyzer: true,
+  //     generateStatsFile: false,
+  //     statsFilename: 'stats.json',
+  //     statsOptions: null,
+  //     logLevel: 'info'
+  //   }
+  // ),
+]
+
+const prodConfig = merge(baseWebpackConfig, {
   mode: 'production',
   output: {
     path: resolve('dist'),
@@ -25,7 +57,7 @@ module.exports = merge(baseWebpackConfig, {
       cacheGroups: {
         // 复用的文件，单独抽离 后续再优化此配置
         commons: {
-          name: 'commons',
+          name: 'common',
           chunks: 'all', 
           minChunks: 2,
           minSize: 1,
@@ -91,16 +123,6 @@ module.exports = merge(baseWebpackConfig, {
       }
     }
   },
-  plugins: [
-    new CleanWebpackPlugin({
-      root: path.resolve(__dirname, '../dist/'),
-    }),
-    // 根据模块的相对路径生成一个四位数的hash作为模块id
-    new webpack.HashedModuleIdsPlugin(),
-    // 压缩抽离样式
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].[chunkhash].css',
-      chunkFilename: 'css/[name].[chunkhash].css'
-    }),
-  ]
+  plugins: pluginsProd
 });
+module.exports = prodConfig

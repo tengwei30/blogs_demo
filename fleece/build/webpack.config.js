@@ -1,6 +1,7 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HappyPack = require('happypack')
 
 
 module.exports = {
@@ -16,7 +17,8 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         // ?cacheDirectory 表示传给 babel-loader 的参数，用于缓存 babel 编译结果加快重新编译速度
-        use: ['babel-loader?cacheDirectory'],
+        // use: ['babel-loader?cacheDirectory'],
+        use: ['happypack/loader?id=babel'],
       },
       {
         // 命中 SCSS 文件
@@ -48,9 +50,20 @@ module.exports = {
     ]
   },
   resolve: {
+    // 使用绝对路径指明第三方模块存放的位置，以减少搜索步骤
+    // 其中 __dirname 表示当前工作目录，也就是项目根目录
+    // modules: [path.resolve(__dirname, 'node_modules')],
+    // 设置文件
     extensions: ['.js', '.jsx', '.json'],
+    // 针对 Npm 中的第三方模块优先采用 jsnext:main 中指向的 ES6 模块化语法的文件
+    mainFields: ['jsnext:main', 'browser', 'main']
   },
   plugins: [
+    new HappyPack({
+      id: 'babel',
+      // babel-loader 支持缓存转换出的结果，通过 cacheDirectory 选项开启
+      loaders: ['babel-loader?cacheDirectory'],
+    }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '../src/index.html'),
       minify: {
