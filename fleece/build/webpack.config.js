@@ -17,7 +17,6 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         // ?cacheDirectory 表示传给 babel-loader 的参数，用于缓存 babel 编译结果加快重新编译速度
-        // use: ['babel-loader?cacheDirectory'],
         use: ['happypack/loader?id=babel'],
       },
       {
@@ -56,7 +55,12 @@ module.exports = {
     // 设置文件
     extensions: ['.js', '.jsx', '.json'],
     // 针对 Npm 中的第三方模块优先采用 jsnext:main 中指向的 ES6 模块化语法的文件
-    mainFields: ['jsnext:main', 'browser', 'main']
+    mainFields: ['jsnext:main', 'browser', 'main'],
+    // 设置别名，减少搜索步骤
+    alias: {
+      '@': path.resolve(__dirname, '../src'),
+      'views': path.resolve(__dirname, '../src/views'),
+    }
   },
   plugins: [
     new HappyPack({
@@ -68,6 +72,8 @@ module.exports = {
       template: path.join(__dirname, '../src/index.html'),
       minify: {
         collapseWhitespace: true, //把生成的 index.html 文件的内容的没用空格去掉，减少空间
+        removeComments: true,
+        removeAttributeQuotes: true,
       },
       hash: true
     }),
