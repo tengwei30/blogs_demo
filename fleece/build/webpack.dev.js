@@ -2,6 +2,7 @@ const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.config.js')
 const webpack = require('webpack')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const DefinePlugin = require('webpack/lib/DefinePlugin')
 
 module.exports = merge(baseWebpackConfig, {
   mode: "development",
@@ -32,6 +33,12 @@ module.exports = merge(baseWebpackConfig, {
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new DefinePlugin({
+      // 定义 NODE_ENV 环境变量为 production，以去除源码中只有开发时才需要的部分
+      'process.env': {
+        NODE_ENV: JSON.stringify('development')
+      }
+    }),
     new FriendlyErrorsPlugin({
       clearConsole: true,
       compilationSuccessInfo: {

@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 module.exports = {
-  entry: './src/main.js',
+  entry: './src/main',
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/',
@@ -13,10 +13,18 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         // ?cacheDirectory 表示传给 babel-loader 的参数，用于缓存 babel 编译结果加快重新编译速度
-        use: ['babel-loader?cacheDirectory'],
+        use: ['babel-loader?cacheDirectory', 'awesome-typescript-loader'],
+      },
+      {
+        test: /\.(ts|tsx)$/,
+        // node_modules 目录的下的代码不用检查
+        exclude: /node_modules/,
+        loader: 'tslint-loader',
+        // 把 tslint-loader 的执行顺序放到最前面，防止其它 Loader 把处理后的代码交给 tslint-loader 去检查
+        enforce: 'pre',
       },
       {
         // 命中 SCSS 文件
@@ -48,7 +56,11 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    // 使用绝对路径指明第三方模块存放的位置，以减少搜索步骤
+    // 其中 __dirname 表示当前工作目录，也就是项目根目录
+    modules: [path.resolve(__dirname, 'node_modules')],
+    mainFields: ['main'],
   },
   plugins: [
     new HtmlWebpackPlugin({
