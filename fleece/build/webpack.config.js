@@ -2,6 +2,14 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HappyPack = require('happypack')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const postcssAspectRatioMini = require('postcss-aspect-ratio-mini')
+const postcssPxToViewport = require('postcss-px-to-viewport')
+const postcssWriteSvg = require('postcss-write-svg')
+const postcssCssnext = require('postcss-preset-env')
+const postcssViewportUnits = require('postcss-viewport-units')
+const cssnano = require('cssnano')
+const NODE_ENV = process.env.NODE_ENV
 
 
 module.exports = {
@@ -20,14 +28,69 @@ module.exports = {
         use: ['happypack/loader?id=babel'],
       },
       {
-        // 命中 SCSS 文件
-        test: /\.scss$/,
-        // 使用一组 Loader 去处理 SCSS 文件。
-        // 处理顺序为从后到前，即先交给 sass-loader 处理，再把结果交给 css-loader 最后再给 style-loader。
-        use: ['style-loader', 'css-loader', 'sass-loader'],
-        // 排除 node_modules 目录下的文件
-        exclude: path.resolve(__dirname, 'node_modules'),
+        test: /\.(css|sass)$/,
+        use: [
+          NODE_ENV ? require.resolve('style-loader') : MiniCssExtractPlugin.loader,
+          {
+            loader: require.resolve('css-loader'),
+            options: {
+              modules: true,
+              importLoaders: 1,
+              localIdentName: '[name]_[local]_[hash:base64:5]'
+            },
+          },
+          {
+            loader: require.resolve('postcss-loader'),
+            options: {
+              ident: 'postcss',
+              plugins: () => [
+                require('postcss-flexbugs-fixes'),
+                require('postcss-preset-env')({
+                  autoprefixer: {
+                    flexbox: 'no-2009',
+                  },
+                  stage: 3,
+                }),
+                //
+                postcssAspectRatioMini({}),
+                postcssPxToViewport({
+                  viewportWidth: 1920, // (Number) The width of the viewport.
+                  viewportHeight: 1080, // (Number) The height of the viewport.
+                  unitPrecision: 3, // (Number) The decimal numbers to allow the REM units to grow to.
+                  viewportUnit: 'vw', // (String) Expected units.
+                  selectorBlackList: ['.ignore', '.hairlines'], // (Array) The selectors to ignore and leave as px.
+                  minPixelValue: 1, // (Number) Set the minimum pixel value to replace.
+                  mediaQuery: false // (Boolean) Allow px to be converted in media queries.
+                }),
+                postcssWriteSvg({
+                  utf8: false
+                }),
+                postcssCssnext({}),
+                postcssViewportUnits({}),
+                cssnano({
+                  "cssnano-preset-advanced": {
+                    zindex: false,
+                    autoprefixer: false,
+                    "postcss-zindex": false
+                  },
+                })
+              ],
+            },
+          },
+          {
+            loader: require.resolve('sass-loader'),
+          }
+        ]
       },
+      // {
+      //   // 命中 SCSS 文件
+      //   test: /\.scss$/,
+      //   // 使用一组 Loader 去处理 SCSS 文件。
+      //   // 处理顺序为从后到前，即先交给 sass-loader 处理，再把结果交给 css-loader 最后再给 style-loader。
+      //   use: ['style-loader', 'css-loader', 'sass-loader'],
+      //   // 排除 node_modules 目录下的文件
+      //   exclude: path.resolve(__dirname, 'node_modules'),
+      // },
       {
         // 对非文本文件采用 file-loader 加载
         test: /\.(gif|png|jpe?g|eot|woff|ttf|svg|pdf)$/,

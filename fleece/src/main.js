@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import store from '@/store/index';
 import Routes from '@/routers/index'
 
-
 ReactDOM.render(
   <Provider store={store}>
     <Routes />

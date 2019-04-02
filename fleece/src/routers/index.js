@@ -8,7 +8,6 @@ const Routes = () => {
       <Route path="/" component={ App }></Route>
     </Router>
   )
-  
 }
 
 export default Routes;
